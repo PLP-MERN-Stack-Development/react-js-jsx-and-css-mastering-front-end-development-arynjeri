@@ -1,63 +1,66 @@
 import { useState } from 'react';
 import './App.css';
-
-// Import your components here
-// import Button from './components/Button';
-// import Navbar from './components/Navbar';
-// import Footer from './components/Footer';
-// import TaskManager from './components/TaskManager';
+import Button from './components/Button';
+import Posts from './components/Posts';
+import TaskManager from './components/TaskManager';
 
 function App() {
   const [count, setCount] = useState(0);
+  const [darkMode, setDarkMode] = useState(false); // toggle dark/light
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
-      {/* Navbar component will go here */}
+    <div className={`${darkMode ? 'dark' : ''} min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100 flex flex-col`}>
+      
+      {/* Navbar */}
       <header className="bg-white dark:bg-gray-800 shadow">
-        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           <h1 className="text-3xl font-bold">PLP Task Manager</h1>
+          {/* Dark/Light mode toggle */}
+          <Button
+            variant="secondary"
+            onClick={() => setDarkMode((prev) => !prev)}
+          >
+            {darkMode ? 'Light Mode' : 'Dark Mode'}
+          </Button>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
-        <div className="bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
-          <div className="flex flex-col items-center justify-center">
-            <p className="text-lg mb-4">
-              Edit <code className="font-mono bg-gray-200 dark:bg-gray-700 p-1 rounded">src/App.jsx</code> and save to test HMR
+      <main className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8 space-y-8 flex-1">
+        
+        {/* Counter section with progress bar */}
+        <div className={`overflow-hidden shadow rounded-lg p-6 ${darkMode ? 'bg-gray-800 text-gray-100' : 'bg-white text-gray-900'}`}>
+          <div className="flex flex-col items-center justify-center w-full">
+            <h2 className="text-xl font-bold mb-2">Task Counter</h2>
+            <p className="text-gray-500 dark:text-gray-400 mb-4 text-center">
+              Track the number of tasks you are managing
             </p>
-            
+
+            {/* Counter buttons */}
             <div className="flex items-center gap-4 my-4">
-              <button
-                onClick={() => setCount((count) => count - 1)}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
-              >
-                -
-              </button>
-              <span className="text-xl font-bold">{count}</span>
-              <button
-                onClick={() => setCount((count) => count + 1)}
-                className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 transition-colors"
-              >
-                +
-              </button>
+              <Button variant="danger" onClick={() => setCount((c) => Math.max(0, c - 1))}>-</Button>
+              <span className="text-2xl font-bold">{count}</span>
+              <Button variant="success" onClick={() => setCount((c) => Math.min(100, c + 1))}>+</Button>
             </div>
 
-            <p className="text-gray-500 dark:text-gray-400 mt-4">
-              Implement your TaskManager component here
-            </p>
+            {/* Progress bar */}
+            <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden mt-4">
+              <div
+                className="bg-blue-600 h-4 transition-all duration-300"
+                style={{ width: `${count}%` }}
+              ></div>
+            </div>
+            <p className="mt-2 text-sm text-gray-400 dark:text-gray-500">{count} / 100 tasks completed</p>
           </div>
         </div>
-        
-        {/* API data display will go here */}
-        <div className="mt-8 bg-white dark:bg-gray-800 overflow-hidden shadow rounded-lg p-6">
-          <h2 className="text-2xl font-bold mb-4">API Data</h2>
-          <p className="text-gray-500 dark:text-gray-400">
-            Fetch and display data from an API here
-          </p>
-        </div>
+
+        {/* TaskManager */}
+        <TaskManager />
+
+        {/* Posts (API Data) */}
+        <Posts />
       </main>
 
-      {/* Footer component will go here */}
+      {/* Footer */}
       <footer className="bg-white dark:bg-gray-800 shadow mt-auto">
         <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
           <p className="text-center text-gray-500 dark:text-gray-400">
@@ -69,4 +72,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
