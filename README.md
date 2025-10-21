@@ -2,6 +2,11 @@
 
 A modern, responsive React application showcasing component architecture, state management, hooks usage, and API integration, built with Vite and styled with Tailwind CSS.
 
+## Live Demo
+
+Check out the deployed app here:[LiveDemo](https://famous-starburst-4e2709.netlify.app/)
+
+
 ## 🌟 Features
 
 - **Component Architecture**
